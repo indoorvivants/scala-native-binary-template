@@ -26,7 +26,7 @@ jobs:
       - name: Install SBT 
         run: brew install sbt
 
-      - name: CI and build the binary
+      - name: Build the binary
         run: sbt ci buildPlatformBinary
 
       - name: Upload artifacts
@@ -50,7 +50,7 @@ jobs:
           java-version: '21'
           cache: 'sbt'
 
-      - name: CI and build the binary
+      - name: Build the binary
         run: sbt buildPlatformBinary
 
       - name: Upload artifacts
@@ -102,7 +102,7 @@ jobs:
           choco install sbt --version=1.10.0
           clang --version
 
-      - name: CI (windows)
+      - name: Build binary (windows)
         run: sbt buildPlatformBinary
         shell: cmd
 
