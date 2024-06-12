@@ -13,11 +13,11 @@ jobs:
         OS: ["macos-12", "macos-14"]
     runs-on: ${{ matrix.OS }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 
 
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin' 
           java-version: '21'
@@ -40,11 +40,11 @@ jobs:
       name: Linux
       runs-on: ubuntu-20.04
       steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 
 
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin' 
           java-version: '21'
@@ -57,7 +57,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: out/release/*
-          name: ${{ matrix.os }}-binaries
+          name: linux-binaries
           if-no-files-found: error
 
   windows_build:
@@ -74,11 +74,11 @@ jobs:
       - name: Setup git config
         run: git config --global core.autocrlf false
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0 
 
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: 'temurin' 
           java-version: '21'
@@ -112,3 +112,30 @@ jobs:
           path: out/release/*
           name: windows-binaries
           if-no-files-found: error
+
+  release:
+    if: ${{ always() }}
+    needs: [linux_build, windows_build, macos_build]
+    name: Upload binaries to release
+    runs-on: ubuntu-20.04
+    env: 
+      BINARIES: binaries/
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 
+
+      - name: Download binaries
+        uses: actions/download-artifact@v4
+        id: download
+        with:
+          path: binaries
+
+      - name: List downloaded binaries
+        run: ls -R binaries
+
+      - name: Upload release binaries
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: "${{steps.download.outputs.download-path}}/**/*"
