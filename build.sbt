@@ -2,7 +2,7 @@ import com.indoorvivants.detective.Platform
 
 lazy val BINARY_NAME = "sn-test"
 lazy val common = Seq(
-  scalaVersion := "3.5.0-RC1"
+  scalaVersion := "3.5.2"
 )
 
 lazy val root = project.in(file(".")).aggregate(lib, bin)
