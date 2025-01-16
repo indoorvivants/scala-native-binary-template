@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        OS: ["macos-12", "macos-14"]
+        OS: ["macos-13", "macos-14"]
     runs-on: ${{ matrix.OS }}
     steps:
       - uses: actions/checkout@v4
@@ -63,7 +63,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         path: out/release/*
-        name: linux-binaries
+        name: ${{ matrix.os }}-linux-binaries
         if-no-files-found: error
 
   windows_build:
