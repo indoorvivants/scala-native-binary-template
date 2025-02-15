@@ -32,3 +32,5 @@ get for LLDB-native languages like C or C++.
 
 Some functionality will work. If you spot bugs, please raise an issue on [Scala Native](https://github.com/scala-native/scala-native/),
 with a reproduction and possibly a screenshot from the debugger.
+
+![CleanShot 2025-02-15 at 10 11 15](https://github.com/user-attachments/assets/916c37e3-9298-4992-97bf-e49be805e0b9)
