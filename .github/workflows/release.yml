@@ -107,7 +107,7 @@ jobs:
         shell: pwsh
         run: |
           choco install llvm --version="$Env:LLVM_VERSION" --allow-downgrade
-          choco install sbt --version=1.10.0
+          choco install sbt --version=1.10.7
           clang --version
 
       - name: Build binary (windows)
