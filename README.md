@@ -1,8 +1,8 @@
 # Scala Native binary release template
 
 This is a simple template demonstrating building a [Scala Native](https://scala-native.org/) binary and releasing it 
-on Github release for all natively supported platforms: Windows (amd64), Linux (amd64), 
-MacOS (arm64), MacOS (amd64).
+on Github release for all natively supported platforms: Windows (amd64), Linux (amd64, arm64), 
+MacOS (arm64, amd64).
 
 Binaries are given descriptive platform-specific names, and upon creating a Github release 
 for a tag starting with `v`, binaries for all platforms are uploaded to release artifacts.
