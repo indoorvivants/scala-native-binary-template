@@ -1,8 +1,10 @@
-name: Release
+name: CI
 on:
   push:
     branches: ["main"]
     tags: ["v*"]
+  pull_request:
+    branches: ["*"]
 
 jobs:
   macos_build:
@@ -27,14 +29,7 @@ jobs:
       - uses: sbt/setup-sbt@v1
 
       - name: Build the binary
-        run: sbt buildPlatformBinary
-
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          path: out/release/*
-          name: ${{ matrix.os }}-binaries
-          if-no-files-found: error
+        run: sbt buildBinary
 
   linux_build:
     name: Linux (${{ matrix.OS }})
@@ -57,14 +52,8 @@ jobs:
     - uses: sbt/setup-sbt@v1
 
     - name: Build the binary
-      run: sbt buildPlatformBinary
+      run: sbt buildBinary
 
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        path: out/release/*
-        name: ${{ matrix.os }}-linux-binaries
-        if-no-files-found: error
 
   windows_build:
     name: Windows
@@ -81,8 +70,6 @@ jobs:
         run: git config --global core.autocrlf false
 
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 
 
       - uses: actions/setup-java@v4
         with:
@@ -100,9 +87,6 @@ jobs:
           minimum-size: 4GB
           maximum-size: 16GB
 
-      - run: clang -v
-        shell: cmd
-
       - name: Install clang and SBT
         shell: pwsh
         run: |
@@ -111,37 +95,13 @@ jobs:
           clang --version
 
       - name: Build binary (windows)
-        run: sbt buildPlatformBinary
+        run: sbt buildBinary
         shell: cmd
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          path: out/release/*
-          name: windows-binaries
-          if-no-files-found: error
 
-  release:
-    if: startsWith(github.ref, 'refs/tags/v') 
+  mergify-build-checkpoint:
+    runs-on: ubuntu-latest
     needs: [linux_build, windows_build, macos_build]
-    name: Upload binaries to release
-    runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0 
-
-      - name: Download binaries
-        uses: actions/download-artifact@v4
-        id: download
-        with:
-          path: binaries
-
-      - name: List downloaded binaries
-        run: ls -R binaries
-
-      - name: Upload release binaries
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: "${{steps.download.outputs.download-path}}/**/*"
+      - name: I only exist to please Mergify :(
+        run: echo "It's a sad existence but necessary"

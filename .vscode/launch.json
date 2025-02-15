@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug",
+            "program": "${workspaceRoot}/out/debug/app",
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": "buildBinary",
+            "args": [
+                "5000",
+                "1000"
+            ]
+        }
+    ]
+}

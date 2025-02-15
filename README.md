@@ -19,3 +19,18 @@ The project itself
   You are of course free to remove the `lib` entirely.
 
 Naming conventions loosely follow Coursier's practices.
+
+## Debugging in VS Code
+
+This template includes very basic setup for debugging with VS Code and [CodeLLDB extension](https://marketplace.visualstudio.com/items?itemName=vadimcn.vscode-lldb).
+
+You should have a `Debug` configuration available, which will automatically build a binary by invoking `sbtn buildBinary` command - 
+so make sure you have sbtn installed (run `sbt installSbtn`).
+
+Please note that debugging information in Scala Native is very experimental, so don't expect a rich debugging experience you can 
+get for LLDB-native languages like C or C++.
+
+Some functionality will work. If you spot bugs, please raise an issue on [Scala Native](https://github.com/scala-native/scala-native/),
+with a reproduction and possibly a screenshot from the debugger.
+
+![CleanShot 2025-02-15 at 10 11 15](https://github.com/user-attachments/assets/916c37e3-9298-4992-97bf-e49be805e0b9)

@@ -2,7 +2,11 @@ import com.indoorvivants.detective.Platform
 
 lazy val BINARY_NAME = "sn-test"
 lazy val common = Seq(
-  scalaVersion := "3.5.2"
+  scalaVersion := "3.6.3",
+  nativeConfig ~= { c =>
+    import scala.scalanative.build.*
+    c.withSourceLevelDebuggingConfig(SourceLevelDebuggingConfig.enabled)
+  }
 )
 
 lazy val root = project.in(file(".")).aggregate(lib, bin)
@@ -19,13 +23,14 @@ lazy val bin = project
   .dependsOn(lib)
   .settings(common)
 
-lazy val buildDebugBinary = taskKey[File]("")
-buildDebugBinary := {
+lazy val buildBinary = taskKey[File]("")
+buildBinary := {
   writeBinary(
     source = (bin / Compile / nativeLink).value,
     destinationDir = (ThisBuild / baseDirectory).value / "out" / "debug",
     log = sLog.value,
-    platform = None
+    platform = None,
+    debug = true
   )
 }
 
@@ -35,7 +40,8 @@ buildReleaseBinary := {
     source = (bin / Compile / nativeLinkReleaseFast).value,
     destinationDir = (ThisBuild / baseDirectory).value / "out" / "release",
     log = sLog.value,
-    platform = None
+    platform = None,
+    debug = false
   )
 }
 
@@ -45,7 +51,8 @@ buildPlatformBinary := {
     source = (bin / Compile / nativeLinkReleaseFast).value,
     destinationDir = (ThisBuild / baseDirectory).value / "out" / "release",
     log = sLog.value,
-    platform = Some(Platform.target)
+    platform = Some(Platform.target),
+    debug = false
   )
 }
 
@@ -53,11 +60,12 @@ def writeBinary(
     source: File,
     destinationDir: File,
     log: sbt.Logger,
-    platform: Option[Platform.Target]
+    platform: Option[Platform.Target],
+    debug: Boolean
 ): File = {
 
   val name = platform match {
-    case None => BINARY_NAME
+    case None => "app"
     case Some(target) =>
       val ext = target.os match {
         case Platform.OS.Windows => ".exe"
@@ -69,7 +77,12 @@ def writeBinary(
 
   val dest = destinationDir / name
 
-  IO.copyFile(source, dest)
+  IO.copyFile(source, dest, CopyOptions.apply(true, true, true))
+
+  import scala.sys.process.*
+
+  if (debug && platform.exists(_.os == Platform.OS.MacOS))
+    s"dsymutil $dest".!!
 
   log.info(s"Binary [$name] built in ${dest}")
 
