@@ -98,13 +98,6 @@ jobs:
         run: sbt buildBinary
         shell: cmd
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          path: out/release/*
-          name: windows-binaries
-          if-no-files-found: error
-
 
   mergify-build-checkpoint:
     runs-on: ubuntu-latest
