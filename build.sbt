@@ -64,6 +64,8 @@ def writeBinary(
     debug: Boolean
 ): File = {
 
+  import java.nio.file.*
+
   val name = platform match {
     case None => "app"
     case Some(target) =>
@@ -77,7 +79,12 @@ def writeBinary(
 
   val dest = destinationDir / name
 
-  IO.copyFile(source, dest, CopyOptions.apply(true, true, true))
+  Files.copy(
+    source.toPath(),
+    dest.toPath(),
+    StandardCopyOption.COPY_ATTRIBUTES,
+    StandardCopyOption.REPLACE_EXISTING,
+  )
 
   import scala.sys.process.*
 
