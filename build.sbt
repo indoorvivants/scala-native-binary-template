@@ -2,7 +2,7 @@ import com.indoorvivants.detective.Platform
 
 lazy val BINARY_NAME = "sn-test"
 lazy val common = Seq(
-  scalaVersion := "3.6.3",
+  scalaVersion := "3.7.0",
   nativeConfig ~= { c =>
     import scala.scalanative.build.*
     c.withSourceLevelDebuggingConfig(SourceLevelDebuggingConfig.enabled)
@@ -79,11 +79,13 @@ def writeBinary(
 
   val dest = destinationDir / name
 
+  Files.createDirectories(destinationDir.toPath())
+
   Files.copy(
     source.toPath(),
     dest.toPath(),
     StandardCopyOption.COPY_ATTRIBUTES,
-    StandardCopyOption.REPLACE_EXISTING,
+    StandardCopyOption.REPLACE_EXISTING
   )
 
   import scala.sys.process.*

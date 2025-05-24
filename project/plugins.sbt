@@ -1,5 +1,5 @@
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.2")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.4")
 
-addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.5.6")
+addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.5.7")
 
 libraryDependencies += "com.indoorvivants.detective" %% "platform" % "0.0.2"
