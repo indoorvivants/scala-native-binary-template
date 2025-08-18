@@ -2,7 +2,7 @@ import com.indoorvivants.detective.Platform
 
 lazy val BINARY_NAME = "sn-test"
 lazy val common = Seq(
-  scalaVersion := "3.7.0",
+  scalaVersion := "3.7.2",
   nativeConfig ~= { c =>
     import scala.scalanative.build.*
     c.withSourceLevelDebuggingConfig(SourceLevelDebuggingConfig.enabled)
