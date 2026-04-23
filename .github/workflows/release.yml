@@ -4,6 +4,10 @@ on:
     branches: ["main"]
     tags: ["v*"]
 
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   macos_build:
     name: MacOS (${{ matrix.OS }})

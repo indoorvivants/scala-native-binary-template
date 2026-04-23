@@ -2,9 +2,12 @@ name: CI
 on:
   push:
     branches: ["main"]
-    tags: ["v*"]
   pull_request:
     branches: ["*"]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   macos_build:
@@ -17,7 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 
+          fetch-depth: 0
 
       - name: Setup
         uses: actions/setup-java@v4
@@ -39,21 +42,20 @@ jobs:
         OS: ["ubuntu-22.04", "ubuntu-22.04-arm"]
     runs-on: ${{ matrix.OS }}
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0 
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin' 
-        java-version: '21'
-        cache: 'sbt'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+          cache: "sbt"
 
-    - uses: sbt/setup-sbt@v1
+      - uses: sbt/setup-sbt@v1
 
-    - name: Build the binary
-      run: sbt buildBinaryDebug
-
+      - name: Build the binary
+        run: sbt buildBinaryDebug
 
   windows_build:
     name: Windows
@@ -64,7 +66,7 @@ jobs:
       LLVM_BIN: 'C:\Program Files\LLVM\bin'
       LLVM_VERSION: "20.1.8"
     steps:
-      # This step is important to make sure scalafmt 
+      # This step is important to make sure scalafmt
       # checks don't fail
       - name: Setup git config
         run: git config --global core.autocrlf false
@@ -73,9 +75,9 @@ jobs:
 
       - uses: actions/setup-java@v4
         with:
-          distribution: 'temurin' 
-          java-version: '21'
-          cache: 'sbt'
+          distribution: "temurin"
+          java-version: "21"
+          cache: "sbt"
 
       - uses: sbt/setup-sbt@v1
 
@@ -97,7 +99,6 @@ jobs:
       - name: Build binary (windows)
         run: sbt buildBinaryDebug
         shell: cmd
-
 
   mergify-build-checkpoint:
     runs-on: ubuntu-latest
