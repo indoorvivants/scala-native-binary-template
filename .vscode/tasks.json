@@ -1,13 +1,29 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "buildBinary",
-            "command": "sbtn",
-            "args": [
-                "buildBinary",
-            ],
-            "type": "shell"
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build debug binary in ./out/debug",
+      "command": "sbtn",
+      "args": ["buildBinaryDebug"],
+      "type": "shell",
+    },
+    {
+      "label": "Build platform (name includes platform information) debug binary in ./out/debug",
+      "command": "sbtn",
+      "args": ["buildBinaryPlatformDebug"],
+      "type": "shell",
+    },
+    {
+      "label": "Build release binary in ./out/release",
+      "command": "sbtn",
+      "args": ["buildBinaryRelease"],
+      "type": "shell",
+    },
+    {
+      "label": "Build release platform (name includes platform information) binary in ./out/release",
+      "command": "sbtn",
+      "args": ["buildBinaryPlatformRelease"],
+      "type": "shell",
+    },
+  ],
 }

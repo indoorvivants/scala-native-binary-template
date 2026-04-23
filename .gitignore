@@ -21,3 +21,4 @@ docs/mdoc-invocation.txt
 local-bindgen
 worktree-main
 out
+.mcp.json

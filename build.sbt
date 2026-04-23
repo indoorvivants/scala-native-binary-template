@@ -1,13 +1,5 @@
 import com.indoorvivants.detective.Platform
 
-lazy val common = Seq(
-  scalaVersion := "3.8.3",
-  nativeConfig ~= { c =>
-    import scala.scalanative.build.*
-    c.withSourceLevelDebuggingConfig(SourceLevelDebuggingConfig.enabled)
-  }
-)
-
 lazy val root = project.in(file(".")).aggregate(lib, bin)
 
 lazy val lib =
@@ -22,6 +14,14 @@ lazy val bin = project
   .dependsOn(lib)
   .settings(common)
   .settings(
-    buildBinaryConfig ~= {_.withName("app")}
+    buildBinaryConfig ~= { _.withName("app") }
   )
 
+lazy val common = Seq(
+  scalaVersion := "3.8.3",
+  nativeConfig ~= { c =>
+    import scala.scalanative.build.*
+    c.withSourceLevelDebuggingConfig(SourceLevelDebuggingConfig.enabled)
+      .withIncrementalCompilation(true)
+  }
+)

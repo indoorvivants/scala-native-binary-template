@@ -7,11 +7,11 @@
     "label": "Build & Debug",
     "build": {
       "command": "sbtn",
-      "args": ["buildBinary"]
+      "args": ["buildBinaryDebug"],
     },
-    "program": "$ZED_WORKTREE_ROOT/out/debug/app",
+    "program": "./out/debug/app",
     "args": ["100", "50"],
     "request": "launch",
-    "adapter": "CodeLLDB" // GDB is available on non arm macs as well as linux
-  }
+    "adapter": "CodeLLDB", // GDB is available on non arm macs as well as linux
+  },
 ]

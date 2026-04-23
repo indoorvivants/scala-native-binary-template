@@ -7,7 +7,7 @@
             "name": "Debug",
             "program": "${workspaceRoot}/out/debug/app",
             "cwd": "${workspaceRoot}",
-            "preLaunchTask": "buildBinary",
+            "preLaunchTask": "buildBinaryDebug",
             "args": [
                 "5000",
                 "1000"
