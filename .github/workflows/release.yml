@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 
+          fetch-depth: 0
 
       - name: Setup
         uses: actions/setup-java@v4
@@ -44,27 +44,27 @@ jobs:
         OS: ["ubuntu-22.04", "ubuntu-22.04-arm"]
     runs-on: ${{ matrix.OS }}
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0 
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin' 
-        java-version: '21'
-        cache: 'sbt'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+          cache: "sbt"
 
-    - uses: sbt/setup-sbt@v1
+      - uses: sbt/setup-sbt@v1
 
-    - name: Build the binary
-      run: sbt buildBinaryPlatformRelease
+      - name: Build the binary
+        run: sbt buildBinaryPlatformRelease
 
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        path: out/release/*
-        name: ${{ matrix.os }}-linux-binaries
-        if-no-files-found: error
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          path: out/release/*
+          name: ${{ matrix.os }}-linux-binaries
+          if-no-files-found: error
 
   windows_build:
     name: Windows
@@ -75,20 +75,20 @@ jobs:
       LLVM_BIN: 'C:\Program Files\LLVM\bin'
       LLVM_VERSION: "20.1.8"
     steps:
-      # This step is important to make sure scalafmt 
+      # This step is important to make sure scalafmt
       # checks don't fail
       - name: Setup git config
         run: git config --global core.autocrlf false
 
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 
+          fetch-depth: 0
 
       - uses: actions/setup-java@v4
         with:
-          distribution: 'temurin' 
-          java-version: '21'
-          cache: 'sbt'
+          distribution: "temurin"
+          java-version: "21"
+          cache: "sbt"
 
       - uses: sbt/setup-sbt@v1
 
@@ -122,14 +122,14 @@ jobs:
           if-no-files-found: error
 
   release:
-    if: startsWith(github.ref, 'refs/tags/v') 
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: [linux_build, windows_build, macos_build]
     name: Upload binaries to release
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 
+          fetch-depth: 0
 
       - name: Download binaries
         uses: actions/download-artifact@v4
