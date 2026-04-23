@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        OS: ["macos-13", "macos-14"]
+        OS: ["macos-15", "macos-15-intel"]
     runs-on: ${{ matrix.OS }}
     steps:
       - uses: actions/checkout@v4
@@ -27,7 +27,7 @@ jobs:
       - uses: sbt/setup-sbt@v1
 
       - name: Build the binary
-        run: sbt buildPlatformBinary
+        run: sbt buildBinaryPlatformRelease
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -57,7 +57,7 @@ jobs:
     - uses: sbt/setup-sbt@v1
 
     - name: Build the binary
-      run: sbt buildPlatformBinary
+      run: sbt buildBinaryPlatformRelease
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
@@ -107,11 +107,11 @@ jobs:
         shell: pwsh
         run: |
           choco install llvm --version="$Env:LLVM_VERSION" --allow-downgrade
-          choco install sbt --version=1.11.4
+          choco install sbt --version=1.12.8
           clang --version
 
       - name: Build binary (windows)
-        run: sbt buildPlatformBinary
+        run: sbt buildBinaryPlatformRelease
         shell: cmd
 
       - name: Upload artifacts

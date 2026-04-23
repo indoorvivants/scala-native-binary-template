@@ -29,7 +29,7 @@ jobs:
       - uses: sbt/setup-sbt@v1
 
       - name: Build the binary
-        run: sbt buildBinary
+        run: sbt buildBinaryDebug
 
   linux_build:
     name: Linux (${{ matrix.OS }})
@@ -52,7 +52,7 @@ jobs:
     - uses: sbt/setup-sbt@v1
 
     - name: Build the binary
-      run: sbt buildBinary
+      run: sbt buildBinaryDebug
 
 
   windows_build:
@@ -91,11 +91,11 @@ jobs:
         shell: pwsh
         run: |
           choco install llvm --version="$Env:LLVM_VERSION" --allow-downgrade
-          choco install sbt --version=1.11.4
+          choco install sbt --version=1.12.8
           clang --version
 
       - name: Build binary (windows)
-        run: sbt buildBinary
+        run: sbt buildBinaryDebug
         shell: cmd
 
 
