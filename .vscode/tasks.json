@@ -4,25 +4,33 @@
     {
       "label": "Build debug binary in ./out/debug",
       "command": "sbtn",
-      "args": ["buildBinaryDebug"],
+      "args": [
+        "buildBinaryDebug"
+      ],
       "type": "shell",
     },
     {
       "label": "Build platform (name includes platform information) debug binary in ./out/debug",
       "command": "sbtn",
-      "args": ["buildBinaryPlatformDebug"],
+      "args": [
+        "buildBinaryPlatformDebug"
+      ],
       "type": "shell",
     },
     {
       "label": "Build release binary in ./out/release",
       "command": "sbtn",
-      "args": ["buildBinaryRelease"],
+      "args": [
+        "buildBinaryRelease"
+      ],
       "type": "shell",
     },
     {
       "label": "Build release platform (name includes platform information) binary in ./out/release",
       "command": "sbtn",
-      "args": ["buildBinaryPlatformRelease"],
+      "args": [
+        "buildBinaryPlatformRelease"
+      ],
       "type": "shell",
     },
   ],

@@ -1,17 +1,27 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "lldb",
-            "request": "launch",
-            "name": "Debug",
-            "program": "${workspaceRoot}/out/debug/app",
-            "cwd": "${workspaceRoot}",
-            "preLaunchTask": "buildBinaryDebug",
-            "args": [
-                "5000",
-                "1000"
-            ]
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "lldb",
+      "request": "launch",
+      "name": "Debug",
+      "program": "${workspaceRoot}/out/debug/app",
+      "cwd": "${workspaceRoot}",
+      "preLaunchTask": "Build debug binary in ./out/debug",
+      "args": [
+        "5000",
+        "1000"
+      ]
+    },
+    {
+      "type": "scala",
+      "request": "launch",
+      "name": "hello",
+      "mainClass": "sn_test.bin.hello",
+      "buildTarget": "file:/Users/velvetbaldmime/projects/indoorvivants/scala-native-binary-template/#bin/Compile",
+      "args": [],
+      "jvmOptions": [],
+      "env": {}
+    }
+  ]
 }
